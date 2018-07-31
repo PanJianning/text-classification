@@ -1,10 +1,10 @@
 # text-classification
-A text classification project using the dataset of YunYi Cup
+A text classification project using the dataset from YunYi Cup
 
 ### Problem
 The data set contains 22w (x,y) records.
 
-x is a comment text, y is the corresponding comment score range from 1 to 5
+x is a comment text on some tourist attractions, y is the corresponding comment score range from 1 to 5
 
 This is a supervised learning problem. At test time, given a comment, we want to predict it's score.
 
