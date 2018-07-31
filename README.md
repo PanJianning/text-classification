@@ -16,8 +16,9 @@ Note: We use 80% of the data as training set and 20% as validation set, no test 
 
 ### Baseline Model
 Stacking: 
-1. first layer:  Logistic regression and Naive Bayes (classification)
-2. second layer: xgboost (regression)
+1. first layer:  Logistic regression and Naive Bayes
+2. second layer: xgboost
 
 validation score(not round): 0.6124758250642371
+
 validation score(rounded): 0.5874567866356902
