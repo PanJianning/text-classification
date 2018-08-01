@@ -14,7 +14,7 @@ def clean(text):
 	text = re.sub(reg_chinese, ' ', text)
 	return text
 
-def read_csv(filename, dir='../input/'):
+def read_csv(filename, dir='./input/'):
 	path = os.path.join(dir, filename+'.csv')
 	return pd.read_csv(path)
 
@@ -38,4 +38,4 @@ for text in all_text:
 
 model = gensim.models.Word2Vec(tokenized_sentences,size=embed_size,window=4,min_count=1,negative=3,
 	sg=1,sample=0.001,hs=0,workers=4,iter=15)
-model.wv.save_word2vec_format("word2vec.bin",binary=True)
+model.wv.save_word2vec_format("./tempdata/word2vec.bin",binary=True)
