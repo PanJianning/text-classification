@@ -20,7 +20,7 @@ def char_tokenizer(text):
 
 def score(y_true, y_pred):
 	rmse = np.sqrt(np.mean(y_true-y_pred)**2)
-	return 1/rmse
+	return 1/(1+rmse)
 
 def read_csv(filename, dir='./input/'):
 	path = os.path.join(dir, filename+'.csv')
@@ -30,9 +30,9 @@ def chinese_tokenizer(text):
 	tokens = list(jieba.cut(text))
 	return ' '.join(tokens)
 
-max_features = 30000
+max_features = 20000
 maxlen = 150
-embed_size = 200
+embed_size = 128
 
 train_first = read_csv('train_first')
 train_second = read_csv('train_second')
