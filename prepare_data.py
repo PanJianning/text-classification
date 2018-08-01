@@ -49,3 +49,4 @@ labels = data.Score.values
 
 joblib.dump(features, './tempdata/features.npy')
 joblib.dump(labels, './tempdata/labels.npy')
+joblib.dump(tokenizer.word_index, './tempdata/word_index.npy')
