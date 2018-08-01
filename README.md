@@ -31,7 +31,7 @@ embed_size = 128
 initialize the embedding matrix randomly, and then modified during training. 
 
 ##### 2.1.1 Vanilla TextCNN
-```
+```python
 def get_model():
     inp = kl.Input(shape=(maxlen,))
     embed = kl.Embedding(max_features, embed_size, trainable=True)(inp)
@@ -59,7 +59,7 @@ The best validation mse is 0.420326, really bad performance compared with the ba
 The word2vec embedding is trained from the 22w comment texts with gensim word2vec model.
 
 ##### 2.2.1 Bidrectional GRU with spatial dropout
-```
+```python
 def get_model():
     inp = kl.Input(shape=(maxlen,))
     embed = kl.Embedding(max_features,embed_size,weights=[embedding_matrix],trainable=False)(inp)
