@@ -1,7 +1,7 @@
 # text-classification
 A text classification project using the dataset from YunYi Cup
 
-### Problem
+### 0. Problem
 The data set contains 22w (x,y) records.
 
 x is a comment text on some tourist attractions, y is the corresponding comment score range from 1 to 5
@@ -13,23 +13,52 @@ Since the score is an ordinal variable, it turns out that regression is more sui
 
 Note: I use 60% of the data as training set and 40% as validation set, no test set.
 
-### Baseline Model
+### 1. Baseline Model
 Stacking: 
 1. first layer:  Logistic regression and Naive Bayes
 2. second layer: xgboost
 
 validation mse: 0.405770
 
-### NN with static word2vec embedding
+### 2. NN Model
 Some common parameters:
 ```
 max_features = 20000
 maxlen = 150
 embed_size = 128
 ```
+#### 2.1 NN with rand embedding
+initialize the embedding matrix randomly, and then modified during training. 
+
+##### 2.1.1 Vanilla TextCNN
+```
+def get_model():
+    inp = kl.Input(shape=(maxlen,))
+    embed = kl.Embedding(max_features, embed_size, trainable=True)(inp)
+    conv1 = kl.Convolution1D(filters=100, kernel_size=3, strides=1, 
+        kernel_initializer='glorot_uniform', activation='relu')(embed)
+    conv2 = kl.Convolution1D(filters=100, kernel_size=4, strides=1, 
+        kernel_initializer='glorot_uniform', activation='relu')(embed) 
+    conv3 = kl.Convolution1D(filters=100, kernel_size=5, strides=1, 
+        kernel_initializer='glorot_uniform', activation='relu')(embed)
+    maxpool1 = kl.GlobalMaxPool1D()(conv1)
+    maxpool2 = kl.GlobalMaxPool1D()(conv2)
+    maxpool3 = kl.GlobalMaxPool1D()(conv3)
+    out = kl.concatenate([maxpool1,maxpool2,maxpool3])
+    out = kl.Dense(1)(out)
+    model = ks.models.Model(inp,out)
+    model.compile(loss="mse", optimizer='adam', metrics=[])
+    return model
+```
+![textcnn-rand](http://ok669z6cd.bkt.clouddn.com/cnn_rand.png)
+
+The best validation mse is 0.420326, really bad performance compared with the baseline model.
+
+#### 2.2 NN with static word2vec embedding
+
 The word2vec embedding is trained from the 22w comment texts with gensim word2vec model.
 
-#### Bidrectional GRU with spatial dropout
+##### 2.2.1 Bidrectional GRU with spatial dropout
 ```
 def get_model():
     inp = kl.Input(shape=(maxlen,))
