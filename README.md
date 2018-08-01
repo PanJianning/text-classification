@@ -6,6 +6,8 @@ The data set contains 22w (x,y) records.
 
 x is a comment text on some tourist attractions, y is the corresponding comment score range from 1 to 5
 
+![data example](http://ok669z6cd.bkt.clouddn.com/data_eg.png?attname=)
+
 This is a supervised learning problem. At test time, given a comment, we want to predict it's score.
 
 Since the score is an ordinal variable, it turns out that regression is more suitable than classification here.
@@ -22,12 +24,12 @@ validation mse: 0.405770
 
 ### 2. NN Model
 Some common parameters:
-```
+```python
 max_features = 20000
 maxlen = 150
 embed_size = 128
 ```
-#### 2.1 NN with rand embedding
+#### 2.1 NN with random embedding
 initialize the embedding matrix randomly, and then modified during training. 
 
 ##### 2.1.1 Vanilla TextCNN
