@@ -29,10 +29,33 @@ max_features = 20000
 maxlen = 150
 embed_size = 128
 ```
-#### 2.1 NN with random embedding
+The embedding_matrix has 2 option:
+
+(1) Random embedding
+
 initialize the embedding matrix randomly, and then modified during training. 
 
-##### 2.1.1 Vanilla TextCNN
+(2) Static word2vec embedding
+
+The word2vec embedding is trained from the 22w comment texts with gensim word2vec model.
+
+#### 2.1 NN Baseline Model
+```python
+def get_model():
+    inp = kl.Input(shape=(maxlen,))
+    embed = kl.Embedding(max_features,embed_size,weights=[embedding_matrix],trainable=False)(inp)
+    avgpool = kl.GlobalAvgPool1D()(embed)
+    out = kl.Dense(256,activation='relu')(avgpool)
+    out = kl.Dense(128,activation='relu')(out)
+    out = kl.Dense(1)(out)
+    model = ks.models.Model(inp,out)
+    model.compile(loss="mse", optimizer='adam', metrics=[])
+    return model
+```
+![nn_baseline](http://ok669z6cd.bkt.clouddn.com/nn_baseline.PNG)
+The best validation mse is 0.432069
+#### 3.1 CNN Model
+##### 3.1.1 Vanilla TextCNN
 ```python
 def get_model():
     inp = kl.Input(shape=(maxlen,))
@@ -56,11 +79,8 @@ def get_model():
 
 The best validation mse is 0.420326, really bad performance compared with the baseline model.
 
-#### 2.2 NN with static word2vec embedding
-
-The word2vec embedding is trained from the 22w comment texts with gensim word2vec model.
-
-##### 2.2.1 Bidrectional GRU with spatial dropout
+#### 3.2 RNN Model
+##### 3.2.1 Bidrectional GRU with spatial dropout
 ```python
 def get_model():
     inp = kl.Input(shape=(maxlen,))
