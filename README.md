@@ -53,6 +53,7 @@ def get_model():
     return model
 ```
 ![nn_baseline](http://ok669z6cd.bkt.clouddn.com/nn_baseline.PNG)
+
 The best validation mse is 0.432069
 #### 3.1 CNN Model
 ##### 3.1.1 Vanilla TextCNN
